@@ -27,7 +27,7 @@ function final_countdown(){
 				var hours=Math.floor((td%one_day)/one_hr);
 				var mins=Math.floor(((td%one_day)%one_hr)/one_min);
 				var secs=Math.floor((td%one_day)%one_hr%one_min/1000);
-			    var m_days = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
+                                var m_days = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
 				var days = post_end.getDate()-now.getDate();
 				var months = post_end.getMonth() - now.getMonth(); 
 				var years= post_end.getFullYear()-now.getFullYear();
@@ -51,9 +51,9 @@ function final_countdown(){
 				function _s(i){if(i>1) i='s'; else i='';return i;} // add plural
 				var hms='';
 				if(td<one_day&&hours>=1)
-					var hms=hours+' hour'+_s(hours)+' '+mins+' minute'+_s(mins);
+					hms=hours+' hour'+_s(hours)+' '+mins+' minute'+_s(mins);
 				else if(td<one_day&&hours<1)
-					var hms=mins+' minute'+_s(mins)+' '+secs+' second'+_s(secs);
+					hms=mins+' minute'+_s(mins)+' '+secs+' second'+_s(secs);
 				//output string
 				if (post_end-now<=0)
 					$(this).html('Auction has ended');
@@ -62,6 +62,6 @@ function final_countdown(){
 				return true;
 		});	
 	});
-if ( exists )
-	setTimeout('final_countdown()',1000); //re-iterate		
+if(typeof final_countdown == 'function')
+	setTimeout(final_countdown,1000); //re-iterate
 };
