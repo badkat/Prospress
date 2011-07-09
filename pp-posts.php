@@ -343,6 +343,41 @@ add_action( 'init', 'pp_register_completed_status' );
 
 
 /**
+ * The shotgun rule resets the auction countdown back to 15 minutes
+ * when a winning bid is placed and less than 15 minutes are left on
+ * the auction clock.
+ *
+ * @package Prospress
+ * @subpackage Posts
+ * @author badkat
+ *
+ */
+function shotgun_rule( $bid_status_msg, $post_id, $bid_value, $bidder_id, $post_max_bid ) {
+    if ( ( get_option( 'pp_shotgun_enabled' ) == 'true' ) && (($bid_status_msg['bid_status']) == 'winning') ){
+            $post_end = get_post_end_time( $post_id, 'timestamp', 'gmt' );
+
+            // Winning bidder is not merely increasing max bid
+            if ( ($bid_status_msg['message_id']) != 4 ) {
+
+                    // Less than 15 minutes left, set end time to 15 minutes for current bid
+                    if ( ( $post_end - time() ) < ( 60 * 15 ) ) {
+                            $post_end_date = date( 'Y-m-d H:i:s', current_time( 'timestamp', 0 ) + 60 * 15 );
+                            $post_end_date_gmt = get_gmt_from_date( $post_end_date );
+
+                            $next = wp_next_scheduled( 'schedule_end_post', array('ID' => $post_id) );
+                            wp_unschedule_event( $next, 'schedule_end_post', array('ID' => $post_id) );
+                            pp_schedule_end_post( $post_id, strtotime( $post_end_date_gmt ) );
+
+                            update_post_meta( $post_id, 'post_end_date', $post_end_date );
+                            update_post_meta( $post_id, 'post_end_date_gmt', $post_end_date_gmt);
+                    }
+            }
+    }
+}
+add_action( 'auction_validate_bid', 'shotgun_rule', 10, 5);
+
+
+/**
  * Display custom Prospress post end date/time form fields.
  *
  * This code is sourced from the edit-form-advanced.php file. Additional code is added for 
