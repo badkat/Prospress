@@ -447,6 +447,10 @@ class PP_Invoice {
 				$_POST[ 'pp_invoice_force_https' ] = 'false';
 			update_option( 'pp_invoice_force_https', $_POST[ 'pp_invoice_force_https' ] );
 
+                        if( empty( $_POST[ 'pp_shotgun_enabled' ] ) )
+				$_POST[ 'pp_shotgun_enabled' ] = 'false';
+			update_option( 'pp_shotgun_enabled', $_POST[ 'pp_shotgun_enabled' ] );
+
 			if(!empty( $_POST[ 'pp_invoice_email_send_invoice_subject' ] ) )
 				update_option( 'pp_invoice_email_send_invoice_subject', $_POST[ 'pp_invoice_email_send_invoice_subject' ]);
 			if(!empty( $_POST[ 'pp_invoice_email_send_invoice_content' ] ) )
