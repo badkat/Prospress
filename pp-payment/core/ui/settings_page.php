@@ -33,6 +33,13 @@
 				<a href="http://www.godaddy.com/Compare/gdcompare_ssl.aspx" title="SSL Certificates from GoDaddy" class="wp_invoice_click_me"><?php _e('Do you need an SSL Certificate?', 'prospress'); ?></a>
 				</td>
 			</tr>
+                        <tr>
+				<th><?php _e( 'Enable Shotgun Rules', 'prospress'); ?></th>
+				<td>
+					<input type="checkbox" name="pp_shotgun_enabled" id="pp_shotgun_enabled" value="true" <?php checked( get_option('pp_shotgun_enabled'), 'true' );?> />
+					<?php _e( 'Extends length of auction to 15 minutes when valid bid is made (if time left is less than 15 minutes)', 'prospress'); ?>
+				</td>
+			</tr>
 		</table>
 		<h3><?php _e( 'Email Templates', 'prospress'); ?></h3>
 		<table class="form-table pp_invoice_email_templates">
